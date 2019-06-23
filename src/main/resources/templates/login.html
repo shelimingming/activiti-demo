@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>请假审批系统</title>
+</head>
+<body>
+<div>
+    <span>请假审批系统</span>
+    <input id="username" placeholder="用户名"/><br/>
+    <button onclick="login()">提交</button>
+</div>
+</body>
+</html>
+
+<style>
+    * {
+        font-family: "微软雅黑";
+        font-size: 15px;
+        margin: 0 auto;
+    }
+
+    div {
+        width: 400px;
+        margin-top: 100px;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    input, button {
+        margin-top: 10px;
+    }
+
+    input {
+        width: 400px;
+        padding: 5px 3px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 5px 0;
+        width: 408px;
+    }
+</style>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"/>
+<script>
+    function login() {
+        $.ajax({
+            url: "/login",
+            type: "POST",
+            data: {
+                "username": $("#username").val()
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    if (data.info.roleId == 1) {
+                        //跳转员工界面
+                        location.href = "/employeeHome";
+                    } else if (data.info.roleId == 2) {
+                        //跳转组长界面
+                        location.href = "/teamleaderHome";
+                    } else if (data.info.roleId == 3) {
+                        //跳转总监界面
+                        location.href = "/directorHome";
+                    } else if (data.info.roleId == 4) {
+                        //跳转人力主管
+                        location.href = "/hrHome";
+                    } else {
+                        alert("user type error:" + data.info.roleId);
+                    }
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+</script>
