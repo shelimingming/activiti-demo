@@ -18,4 +18,10 @@ public class LeaveFormServiceImpl implements LeaveFormService {
         List<LeaveFormDO> LeaveFormDOList = leaveFormDAO.findByUserId(userId);
         return LeaveFormDOList;
     }
+
+    @Override
+    public LeaveFormDO save(LeaveFormDO leaveFormDO) {
+        LeaveFormDO savedLeaveFormDO = leaveFormDAO.save(leaveFormDO);
+        return savedLeaveFormDO;
+    }
 }

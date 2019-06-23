@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>工作流</title>
+<title>请假审批系统</title>
 <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
@@ -20,7 +20,6 @@
 				<td>请假原因</td>
 				<td>请假类型</td>
 				<td>请假流程状态</td>
-				<td>操作</td>
 			</tr>
 		</thead>
 		<tr th:each="form:${forms}">
@@ -109,6 +108,7 @@ button {
 	function logout() {
 		$.ajax({
 			url : "/logout",
+            type: "POST",
 			success : function(data) {
 				if (data.code == 200) {
 					location.href = "/";

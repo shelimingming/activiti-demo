@@ -9,6 +9,8 @@ import java.util.List;
 
 
 public interface LeaveFormService {
-    public List<LeaveFormDO> findByUserId(Integer userId);
+    List<LeaveFormDO> findByUserId(Integer userId);
+
+    LeaveFormDO save(LeaveFormDO leaveFormDO);
 
 }

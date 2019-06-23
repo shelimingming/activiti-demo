@@ -43,5 +43,23 @@ public class LoginController {
         return result;
     }
 
+    @PostMapping("/logout")
+    public ResultInfo logout(HttpServletRequest request, HttpServletResponse response) {
+        ResultInfo result = new ResultInfo();
+
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie:cookies) {
+            if("userInfo".equals(cookie.getName())) {
+                cookie.setValue(null);
+                // 立即销毁cookie
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+            }
+        }
+        result.setCode(200);
+        return result;
+    }
+
 
 }

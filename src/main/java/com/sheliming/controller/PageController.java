@@ -68,4 +68,10 @@ public class PageController {
         return "index_employee";
     }
 
+    //请假单页面
+    @GetMapping( "/form")
+    public String form(){
+        return "form";
+    }
+
 }
