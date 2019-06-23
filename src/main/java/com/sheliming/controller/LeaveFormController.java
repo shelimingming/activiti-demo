@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 @RestController
 public class LeaveFormController {
@@ -27,6 +30,14 @@ public class LeaveFormController {
 
         LeaveFormDO leaveFormDO = new LeaveFormDO();
         leaveFormDO.setDays(Integer.parseInt(days));
+        try {
+            leaveFormDO.setBeginDate(DateFormat.getDateInstance().parse(beginDate));
+            leaveFormDO.setEndDate(DateFormat.getDateInstance().parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         LeaveFormDO savedLeaveFormDO = leaveFormService.save(leaveFormDO);
 
         System.out.println(savedLeaveFormDO);
