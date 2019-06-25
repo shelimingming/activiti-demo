@@ -10,10 +10,10 @@
     <sequenceFlow id="_9" sourceRef="_2" targetRef="_3"/>
     <sequenceFlow id="_10" sourceRef="_3" targetRef="_8"/>
     <sequenceFlow id="_11" name="小于等于3天" sourceRef="_8" targetRef="_4">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${day<=3}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${days<=3}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_12" name="大于3天" sourceRef="_8" targetRef="_5">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${day>3}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${days>3}]]></conditionExpression>
     </sequenceFlow>
     <userTask activiti:assignee="人力资源组" activiti:exclusive="true" id="_16" name="人力资源审批"/>
     <sequenceFlow id="_17" sourceRef="_4" targetRef="_16"/>

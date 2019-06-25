@@ -14,4 +14,6 @@ public interface LeaveFormService {
     LeaveFormDO save(LeaveFormDO leaveFormDO);
 
     LeaveFormDO writeForm(LeaveFormDO leaveFormDO);
+
+    List<LeaveFormDO> getUserLeaveForm(Integer userId, int pageNum, int pageSize);
 }

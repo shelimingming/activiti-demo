@@ -1,9 +1,7 @@
 package com.sheliming.service;
 
-import com.sheliming.domain.UserDO;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import com.sheliming.domain.RoleDO;
 
 public interface RoleService {
+    RoleDO create(RoleDO roleDO);
 }
