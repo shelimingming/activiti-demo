@@ -33,7 +33,7 @@ public class LoginController {
             result.setMsg("登录成功");
             result.setInfo(user);
             //用户信息存放在Cookie中，实际情况下保存在Redis更佳
-            Cookie cookie = new Cookie("userInfo", username);
+            Cookie cookie = new Cookie("userInfo", user.getId().toString());
             cookie.setPath("/");
             response.addCookie(cookie);
         } else {

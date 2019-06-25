@@ -8,8 +8,8 @@
 <div>
     <span>填写请假单</span>
     <input id="days" placeholder="请假天数"/><br/>
-    <input id="beginDate" type="datetime-local" placeholder="开始时间"/><br/>
-    <input id="endDate" type="datetime-local" placeholder="结束时间"/><br/>
+    <input id="beginDate" type="datetime-local"/><br/>
+    <input id="endDate" type="datetime-local"/><br/>
     <input id="vacationType" placeholder="请假类型"/><br/>
     <textarea id="reason" placeholder="请假原因" rows="10"></textarea>
     <button onclick="submit()">提交</button>
@@ -49,6 +49,7 @@
 
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"/>
 <script>
+
     function submit() {
         var operator = getUser();
         if (operator == "") {
@@ -56,6 +57,7 @@
         }
         $.ajax({
             url: "/writeForm",
+            type: "POST",
             data: {
                 "days": $("#days").val(),
                 "beginDate": $("#beginDate").val(),
@@ -64,7 +66,7 @@
             },
             success: function (data) {
                 if (data.code == 200) {
-                    location.href = "/home";
+                    location.href = "/employeeHome";
                 }
             }
         });

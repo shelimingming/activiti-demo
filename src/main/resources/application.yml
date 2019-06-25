@@ -15,3 +15,4 @@ spring:
     encoding: UTF-8
     content-type: text/html; charset=utf-8
     cache: false
+#    mode: LEGACYHTML5
