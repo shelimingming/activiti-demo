@@ -8,6 +8,7 @@
 <body>
 	<div>
 		<button onclick="writeForm()">填写请假单</button>
+		<button onclick="todo()">我的待办</button>
 		<button class="log" onclick="logout()">退出</button>
 	</div>
 	<table th:if="${forms.size()}>0">
@@ -103,6 +104,10 @@ button {
 <script>
 	function writeForm() {
 		location.href = "/form";
+	}
+
+	function todo() {
+		location.href = "/todo";
 	}
 
 	function logout() {

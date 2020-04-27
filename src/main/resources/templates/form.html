@@ -7,10 +7,14 @@
 <body>
 <div>
     <span>填写请假单</span>
-    <input id="days" placeholder="请假天数"/><br/>
     <input id="beginDate" type="datetime-local"/><br/>
     <input id="endDate" type="datetime-local"/><br/>
-    <input id="vacationType" placeholder="请假类型"/><br/>
+    <select id="vacationType">
+        <option value="1">带薪假</option>
+        <option value="2">病假</option>
+        <option value="3">事假</option>
+    </select>
+    <br/>
     <textarea id="reason" placeholder="请假原因" rows="10"></textarea>
     <button onclick="submit()">提交</button>
 </div>
@@ -31,12 +35,12 @@
         padding-top: 10px;
     }
 
-    input, textarea, button {
+    input, textarea, button, select {
         padding: 3px;
         margin-top: 10px;
     }
 
-    input, textarea {
+    input, textarea, select{
         width: 400px;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -56,17 +60,17 @@
             location.href = "/";
         }
         $.ajax({
-            url: "/writeForm",
+            url: "leaveForm/writeForm",
             type: "POST",
             data: {
-                "days": $("#days").val(),
                 "beginDate": $("#beginDate").val(),
                 "endDate": $("#endDate").val(),
-                "operator": operator
+                "vacationType": $("#vacationType").val(),
+                "reason": $("#reason").val()
             },
             success: function (data) {
                 if (data.code == 200) {
-                    location.href = "/employeeHome";
+                    location.href = "/index";
                 }
             }
         });

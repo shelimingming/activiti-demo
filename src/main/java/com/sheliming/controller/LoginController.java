@@ -1,22 +1,15 @@
 package com.sheliming.controller;
 
-import com.sheliming.domain.LeaveFormDO;
 import com.sheliming.domain.UserDO;
-import com.sheliming.service.LeaveFormService;
 import com.sheliming.service.UserService;
 import com.sheliming.util.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 public class LoginController {
@@ -48,8 +41,8 @@ public class LoginController {
         ResultInfo result = new ResultInfo();
 
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie:cookies) {
-            if("userInfo".equals(cookie.getName())) {
+        for (Cookie cookie : cookies) {
+            if ("userInfo".equals(cookie.getName())) {
                 cookie.setValue(null);
                 // 立即销毁cookie
                 cookie.setMaxAge(0);

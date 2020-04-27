@@ -4,9 +4,11 @@ import com.sheliming.domain.LeaveFormDO;
 import com.sheliming.domain.UserDO;
 import com.sheliming.service.LeaveFormService;
 import com.sheliming.service.UserService;
+import org.activiti.engine.task.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
@@ -33,20 +35,10 @@ public class PageController {
     }
 
     //员工的首页
-    @GetMapping("/employeeHome")
+    @GetMapping("/index")
     public String index(ModelMap model, HttpServletRequest request) {
 
-        Cookie[] cookies = request.getCookies();
-        String username = "";
-        //从cookie中获取当前用户
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("userInfo")) {
-                    username = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        String username = getUsername(request);
         UserDO userDO = userService.login(username);
 
         List<LeaveFormDO> leaveFormDOList = leaveFormService.findByUserId(userDO.getId());
@@ -60,18 +52,80 @@ public class PageController {
             map.put("endDate", leaveFormDO.getEndDate());
             map.put("reason", leaveFormDO.getReason());
             map.put("vacationType", leaveFormDO.getVacationType());
-            map.put("processStatus", leaveFormDO.getProcessInstanceId());
+            map.put("processStatus", leaveFormDO.getProcessStatus());
             formsMap.add(map);
         }
         //将forms参数返回
         model.addAttribute("forms", formsMap);
-        return "index_employee";
+        return "index";
     }
 
+
     //请假单页面
-    @GetMapping( "/form")
-    public String form(){
+    @GetMapping("/form")
+    public String form() {
         return "form";
+    }
+
+    //我的待办页面
+    @GetMapping("/todo")
+    public String todo(ModelMap model, HttpServletRequest request) {
+        String username = getUsername(request);
+        UserDO userDO = userService.login(username);
+
+        List<LeaveFormDO> leaveFormDOList = leaveFormService.getUserTodo(userDO.getId(), 1, 10);
+
+        List<HashMap<String, Object>> formsMap = new ArrayList<HashMap<String, Object>>();
+        if (!CollectionUtils.isEmpty(leaveFormDOList)) {
+            for (LeaveFormDO leaveFormDO : leaveFormDOList) {
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("id", leaveFormDO.getId());
+                map.put("days", leaveFormDO.getDays());
+                map.put("beginDate", leaveFormDO.getBeginDate());
+                map.put("endDate", leaveFormDO.getEndDate());
+                map.put("reason", leaveFormDO.getReason());
+                map.put("vacationType", leaveFormDO.getVacationType());
+                map.put("processStatus", leaveFormDO.getProcessStatus());
+                map.put("processInstanceId", leaveFormDO.getProcessInstanceId());
+                formsMap.add(map);
+            }
+        }
+        //将forms参数返回
+        model.addAttribute("forms", formsMap);
+        return "todo";
+    }
+
+    //审批页面
+    @GetMapping("/approve")
+    public String approve(ModelMap model, HttpServletRequest request) {
+        Integer formId = Integer.parseInt(request.getParameter("formId"));
+        LeaveFormDO leaveFormDO = leaveFormService.findById(formId).get(0);
+
+        List<Comment> commentHistoryList = leaveFormService.getCommentHistory(formId);
+        model.addAttribute("form", leaveFormDO);
+        model.addAttribute("commentHistoryList", commentHistoryList);
+        return "approve";
+    }
+
+    /**
+     * 从cookie里获取用户名
+     *
+     * @param request
+     * @return
+     */
+    private String getUsername(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String username = "";
+        //从cookie中获取当前用户
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("userInfo")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return username;
     }
 
 }

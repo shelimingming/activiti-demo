@@ -16,7 +16,9 @@ public class LeaveFormServiceTest {
 
     @Test
     public void getUserLeaveFormTest() {
-        leaveFormService.getUserLeaveForm(1,1,10);
+//        leaveFormService.getUserLeaveForm(2,1,10);
+//        leaveFormService.approve("121212121212121212",true,"10022","2");
+        leaveFormService.getCommentHistory(5);
     }
 
 }

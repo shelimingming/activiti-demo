@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>请假审批系统</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div>
+    <p>请假条id：</p>
+    <input id="id" type="text" disabled="disabled" th:value="${form.id}"/><br/>
+    <p>申请人：</p>
+    <input id="username" type="text" disabled="disabled" th:value="${form.id}"/><br/>
+    <p>请假天数：</p>
+    <input id="days" type="text" disabled="disabled" th:value="${form.days}"/><br/>
+    <p>请假开始时间：</p>
+    <input id="beginDate" type="text" disabled="disabled" th:value="${form.beginDate}"/><br/>
+    <p>请假结束时间：</p>
+    <input id="endDate" type="text" disabled="disabled" th:value="${form.endDate}"/><br/>
+    <p>请假原因：</p>
+    <input id="reason" type="text" disabled="disabled" th:value="${form.reason}"/><br/>
+    <p>请假类型：</p>
+    <input id="vacationType" type="text" disabled="disabled" th:value="${form.vacationType}"/><br/>
+    <p>请假流程状态：</p>
+    <input id="processStatus" type="text" disabled="disabled " th:value="${form.processStatus}"/><br/>
+    <p>审批意见：</p>
+    <textarea id="comment" rows="5"></textarea><br/>
+
+    <button onclick="agree()">同意</button>
+    <button onclick="disagree()">驳回</button>
+</div>
+
+<div>
+	<table th:if="${commentHistoryList.size()}>0">
+		<thead>
+		<tr>
+			<td>审批人</td>
+			<td>审批时间</td>
+			<td>审批意见</td>
+		</tr>
+		</thead>
+		<tr th:each="commentHistory:${commentHistoryList}">
+			<td th:text="${commentHistory.userId}"></td>
+			<td th:text="${commentHistory.time}"></td>
+			<td th:text="${commentHistory.fullMessage}"></td>
+		</tr>
+	</table>
+	<div th:if="${commentHistoryList.size()}==0">
+		<br/>暂无审批数据
+	</div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">流程</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<style>
+body{
+	margin:10px 10px 100px 10px;
+}
+* {
+	font-family: "微软雅黑";
+	font-size: 15px;
+}
+
+td {
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+}
+
+button {
+	padding: 5px;
+	margin: 5px 0;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+}
+
+.log {
+	float: right;
+	padding: 5px 8px;
+	background: #ec5757;
+	color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+</style>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"/>
+<script
+        src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+    function agree() {
+        var operator = getUser();
+        if (operator == "") {
+            location.href = "/";
+        }
+        $.ajax({
+            url: "/leaveForm/approve",
+            type: "POST",
+            data: {
+                "formId": $("#id").val(),
+                "comment": $("#comment").val(),
+                "isApprove": 0,
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    location.href = "/todo";
+                }
+            }
+        });
+    }
+
+function disagree() {
+        var operator = getUser();
+        if (operator == "") {
+            location.href = "/";
+        }
+        $.ajax({
+            url: "/leaveForm/approve",
+            type: "POST",
+            data: {
+                "formId": $("#id").val(),
+                "comment": $("#comment").val(),
+                "isApprove": 1,
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    location.href = "/todo";
+                }
+            }
+        });
+    }
+
+    function getUser() {
+        var name = "userInfo=";
+        var user = "";
+        var ca = document.cookie.split(';');
+        console.error("ca:" + ca);
+        $.each(ca, function (i, item) {
+            if (item.indexOf(name) != -1) {
+                user = item.substring(name.length + 1, item.length);
+                console.error("user:" + user);
+            }
+        });
+        console.error("user:" + user);
+        return user;
+    }
+
+
+
+
+
+
+
+</script>

@@ -1,9 +1,11 @@
+server:
+  port: 9999
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/activiti-demo?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
-    password: 123456
+    password: root
   jpa:
     hibernate:       
       ddl-auto: update

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>请假审批系统</title>
+</head>
+<body>
+    <table th:if="${forms.size()}>0">
+        <thead>
+        <tr>
+            <td>请假条id</td>
+            <td>请假天数</td>
+            <td>请假开始时间</td>
+            <td>请假结束时间</td>
+            <td>请假原因</td>
+            <td>请假类型</td>
+            <td>请假流程状态</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tr th:each="form:${forms}">
+            <td th:text="${form.id}"></td>
+            <td th:text="${form.days}"></td>
+            <td th:text="${form.beginDate}"></td>
+            <td th:text="${form.endDate}"></td>
+            <td th:text="${form.reason}"></td>
+            <td th:text="${form.vacationType}"></td>
+            <td th:text="${form.processStatus}"></td>
+            <td><button th:onclick="'javascript:approve('+${form.id}+')' ">审批</button>
+<!--                <button  th:onclick="'javascript:image('+${form.processInstanceId}+')' ">查看流程图</button>-->
+                <a th:href="@{'/activiti/image?processInstanceId=' + ${form.processInstanceId}}" target="_blank">查看流程图</a>
+            </td>
+        </tr>
+    </table>
+    <div th:if="${forms.size()}==0">
+        <br />暂无审批数据
+    </div>
+</body>
+</html>
+
+<style>
+    body{
+        margin:10px 10px 100px 10px;
+    }
+    * {
+        font-family: "微软雅黑";
+        font-size: 15px;
+    }
+
+    td {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        padding: 5px;
+        margin: 5px 0;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+    }
+
+    .log {
+        float: right;
+        padding: 5px 8px;
+        background: #ec5757;
+        color: #fff;
+    }
+</style>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"/>
+<script>
+    function approve(id) {
+		location.href = "/approve?formId=" + id;
+	}
+</script>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>请假审批系统</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
 <div>
@@ -55,21 +56,7 @@
             },
             success: function (data) {
                 if (data.code == 200) {
-                    if (data.info.roleId == 1) {
-                        //跳转员工界面
-                        location.href = "/employeeHome";
-                    } else if (data.info.roleId == 2) {
-                        //跳转组长界面
-                        location.href = "/teamleaderHome";
-                    } else if (data.info.roleId == 3) {
-                        //跳转总监界面
-                        location.href = "/directorHome";
-                    } else if (data.info.roleId == 4) {
-                        //跳转人力主管
-                        location.href = "/hrHome";
-                    } else {
-                        alert("user type error:" + data.info.roleId);
-                    }
+                    location.href = "/index";
                 } else {
                     alert(data.msg);
                 }
